@@ -26,6 +26,9 @@ public class DeflateEditorTab extends AbstractDecompressorEditorTab implements I
 	@Override
 	public boolean detect (byte[] content) {
 		int bodyOffset = getHelpers().analyzeRequest(content).getBodyOffset();
+
+		if (content.length < bodyOffset + DEFLATE_MAGIC.length) return false;
+
 		return getHelpers().indexOf(content, DEFLATE_MAGIC, false, bodyOffset, bodyOffset + DEFLATE_MAGIC.length) > -1;
 	}
 

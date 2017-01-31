@@ -56,6 +56,9 @@ public class PkzipInputTab extends AbstractDecompressorEditorTab implements IMes
 	@Override
 	public boolean detect (byte[] content) {
 		int bodyOffset = getHelpers().analyzeRequest(content).getBodyOffset();
+
+		if (content.length < bodyOffset + PKZIP_MAGIC.length) return false;
+
 		return getHelpers().indexOf(content, PKZIP_MAGIC, false, bodyOffset, bodyOffset + PKZIP_MAGIC.length) > -1;
 	}
 
