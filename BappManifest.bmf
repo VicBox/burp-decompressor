@@ -1,6 +1,7 @@
 Uuid: ef36a66ebeb04412a52ffc17c2f5e15e
 ExtensionType: 1
 Name: Decompressor
+RepoName: decompressor
 ScreenVersion: 1.1
 SerialVersion: 3
 MinPlatformVersion: 0
