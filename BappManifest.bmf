@@ -6,7 +6,7 @@ ScreenVersion: 1.1
 SerialVersion: 3
 MinPlatformVersion: 0
 ProOnly: False
-Author: Parmin Tukidi
+Author: Antoine Neuenschwander
 ShortDescription: View and modify compressed HTTP messages without changing the content-encoding.
 EntryPoint: dist/burp-decompressor.jar
 BuildCommand: ant && ln -s burp-decompressor-`date +%Y%m%d`.jar dist/burp-decompressor.jar
