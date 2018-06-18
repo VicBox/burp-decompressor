@@ -10,8 +10,6 @@ import java.util.zip.InflaterInputStream;
 
 public class DeflateEditorTab extends AbstractDecompressorEditorTab implements IMessageEditorTab {
 
-	public static final byte[] DEFLATE_MAGIC = { (byte) 0x78, (byte) 0x9c };
-
 	public DeflateEditorTab(IMessageEditorController controller, IBurpExtenderCallbacks callbacks,
 			IExtensionHelpers helpers, boolean editable) {
 		super(controller, callbacks, helpers, editable);
@@ -26,10 +24,12 @@ public class DeflateEditorTab extends AbstractDecompressorEditorTab implements I
 	@Override
 	public boolean detect (byte[] content) {
 		int bodyOffset = getHelpers().analyzeRequest(content).getBodyOffset();
-
-		if (content.length < bodyOffset + DEFLATE_MAGIC.length) return false;
-
-		return getHelpers().indexOf(content, DEFLATE_MAGIC, false, bodyOffset, bodyOffset + DEFLATE_MAGIC.length) > -1;
+		if (content.length < (bodyOffset + 2))
+			return false;
+		int header = ((content[bodyOffset] & 0xff) << 8) + (content[bodyOffset + 1] & 0xff);
+		return ((header & 0x0800) == 0x0800)  // deflate
+			&& ((header & 0x8000) == 0)   // valid window size
+			&& ((header % 31) == 0);      // header check
 	}
 
 	@Override
