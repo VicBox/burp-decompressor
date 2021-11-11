@@ -54,6 +54,9 @@ class GzipEditorTab extends AbstractDecompressorEditorTab implements IMessageEdi
 	@Override
 	protected boolean detect(byte[] content) {
 		int bodyOffset = getHelpers().analyzeRequest(content).getBodyOffset();
+
+		if (content.length < bodyOffset + GZIP_MAGIC.length) return false;
+
 		return getHelpers().indexOf(content, GZIP_MAGIC, true, bodyOffset, bodyOffset + GZIP_MAGIC.length) > -1;
 	}
 
